@@ -1,10 +1,14 @@
 import MeetupList from '@/components/meetups/MeetupList';
+import NewMeetupForm from '@/components/meetups/NewMeetupForm';
 import Link from 'next/link';
 
 function NewMeetup() {
+    function addMeetupHandler() {
+
+    }
     return (
         <>
-        <h1> New Meetup </h1>
+            <NewMeetupForm onAddMeetup={addMeetupHandler} />
         </>
     )
 }
