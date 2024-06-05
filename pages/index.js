@@ -60,12 +60,29 @@ function HomePage(props) {
     )
 }
 
+// use this when there is static data
 export async function getStaticProps() {
     return {
         props: {
             meetups: MEETUPS
-        }
+        },
+        revalidate: 10
     }
 }
+
+// use this if your app updates every single second 
+// export async function getServerSideProps(context) {
+ 
+//    const req = context.req;
+//    const res = context.res;
+
+//    fetch data from API  
+
+//     return {
+//         props: {
+//             meetups: MEETUPS
+//         }
+//     }
+// }
 
 export default HomePage;
