@@ -3,7 +3,7 @@ import NewMeetupForm from '@/components/meetups/NewMeetupForm';
 import Link from 'next/link';
 
 function NewMeetup() {
-    function addMeetupHandler() {
+    function addMeetupHandler(enterdData) {
 
     }
     return (
