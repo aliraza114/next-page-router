@@ -1,58 +1,6 @@
-import MeetupList from '@/components/meetups/MeetupList';
 
-const MEETUPS = [
-    {
-        id: 'm1',
-        title: 'My First Meetup',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.ESoS0_MqVlu3zmvK67lqKQHaE7&pid=Api&P=0&h=220',
-        address: 'chink pokli 234 555, 5',
-        description: 'Jani gaga ',
-    },
-    {
-        id: 'm2',
-        title: 'My 33 Meetup',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.ESoS0_MqVlu3zmvK67lqKQHaE7&pid=Api&P=0&h=220',
-        address: 'chink pokli 234 555, 5',
-        description: 'Jani 33 gaga ',
-    },
-    
-    {
-        id: 'm3',
-        title: 'My 2 Meetup',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.ESoS0_MqVlu3zmvK67lqKQHaE7&pid=Api&P=0&h=220',
-        address: 'chink pokli 234 555, 5',
-        description: 'Jani 2 gaga ',
-    },
-    {
-        id: 'm4',
-        title: 'My First Meetup',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.ESoS0_MqVlu3zmvK67lqKQHaE7&pid=Api&P=0&h=220',
-        address: 'chink pokli 234 555, 5',
-        description: 'Jani gaga ',
-    },
-    
-    {
-        id: 'm1',
-        title: 'My foue Meetup',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.ESoS0_MqVlu3zmvK67lqKQHaE7&pid=Api&P=0&h=220',
-        address: 'chink pokli 234 555, 5',
-        description: 'Jani foue gaga ',
-    },
-    {
-        id: 'm5',
-        title: 'My five Meetup',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.ESoS0_MqVlu3zmvK67lqKQHaE7&pid=Api&P=0&h=220',
-        address: 'chink pokli 234 555, 5',
-        description: 'Jani five gaga ',
-    },
-    {
-        id: 'm6',
-        title: 'My Six Meetup',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.ESoS0_MqVlu3zmvK67lqKQHaE7&pid=Api&P=0&h=220',
-        address: 'chink pokli 234 555, 5',
-        description: 'Jani six gaga ',
-    },
-]
+import MeetupList from '@/components/meetups/MeetupList';
+import { MongoClient } from 'mongodb';
 
 function HomePage(props) {
     return (
@@ -62,9 +10,23 @@ function HomePage(props) {
 
 // use this when there is static data
 export async function getStaticProps() {
+    const client = await MongoClient.connect('mongodb+srv://aliakram:aliakram@cluster0.enjdmnn.mongodb.net/meetups?retryWrites=true&w=majority&appName=Cluster0');
+
+        const db = client.db();
+
+        const meetupsCollection = db.collection('meetups');
+        const meetups = await meetupsCollection.find().toArray();
+        console.log('aaa ', meetups)
+
+        client.close()
     return {
         props: {
-            meetups: MEETUPS
+            meetups: meetups?.map((meetup) => ({
+                title: meetup.title,
+                address: meetup.address,
+                image: meetup.image,
+                id: meetup._id.toString(),
+            }))
         },
         revalidate: 10
     }
