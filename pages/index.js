@@ -1,10 +1,19 @@
 
 import MeetupList from '@/components/meetups/MeetupList';
 import { MongoClient } from 'mongodb';
+import Head from 'next/head';
 
 function HomePage(props) {
     return (
+        <>
+        <Head>
+            <title>
+                Next Meetup
+            </title>
+            <meta name='description' content='This is the description'></meta>
+        </Head>
         <MeetupList meetups={props.meetups} />
+        </>
     )
 }
 
@@ -16,7 +25,6 @@ export async function getStaticProps() {
 
         const meetupsCollection = db.collection('meetups');
         const meetups = await meetupsCollection.find().toArray();
-        console.log('aaa ', meetups)
 
         client.close()
     return {
